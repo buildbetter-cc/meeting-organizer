@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum PollStatus {
+  open
+  closed
+}
+
+enum Answer {
+  yes
+  no
+}
+
+model Poll {
+  id            String     @id @default(cuid())
+  title         String
+  description   String?
+  location      String?
+  organizerName String
+  adminToken    String     @unique
+  status        PollStatus @default(open)
+  finalSlotId   String?    @unique
+  createdAt     DateTime   @default(now())
+
+  slots     Slot[]  @relation("PollSlots")
+  votes     Vote[]
+  finalSlot Slot?   @relation("FinalSlot", fields: [finalSlotId], references: [id])
+}
+
+model Slot {
+  id      String   @id @default(cuid())
+  pollId  String
+  startAt DateTime
+  endAt   DateTime
+
+  poll        Poll         @relation("PollSlots", fields: [pollId], references: [id], onDelete: Cascade)
+  finalFor    Poll?        @relation("FinalSlot")
+  voteChoices VoteChoice[]
+
+  @@index([pollId])
+}
+
+model Vote {
+  id              String   @id @default(cuid())
+  pollId          String
+  participantName String
+  editToken       String
+  createdAt       DateTime @default(now())
+
+  poll    Poll         @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  choices VoteChoice[]
+
+  @@index([pollId])
+}
+
+model VoteChoice {
+  voteId String
+  slotId String
+  answer Answer
+
+  vote Vote @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  slot Slot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+
+  @@id([voteId, slotId])
+}
