@@ -5,13 +5,13 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border border-transparent text-label font-semibold no-underline transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-45";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border text-label font-semibold no-underline transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-45";
 const heights: Record<ButtonSize, string> = { md: "h-11", lg: "h-13 text-base" };
 const paddings: Record<ButtonSize, string> = { md: "px-6", lg: "px-8" };
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-on-primary hover:brightness-110",
+  primary: "border-transparent bg-primary text-on-primary hover:brightness-110",
   secondary: "bg-transparent text-ink border-line-strong hover:border-ink",
-  ghost: "bg-transparent text-accent px-2 hover:underline underline-offset-4",
+  ghost: "border-transparent bg-transparent text-accent px-2 hover:underline underline-offset-4",
 };
 
 export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize = "md"): string {
