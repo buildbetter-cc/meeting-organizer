@@ -1,8 +1,8 @@
-# Meeting Organizer: MVP Specification
+# BetterMeet: MVP Specification
 
 ## Goal
 
-A minimal group meeting poll. One organizer proposes candidate time slots, participants vote on them, and the organizer picks the final time. No user accounts.
+BetterMeet is a minimal group meeting poll. One organizer proposes candidate time slots, participants vote on them, and the organizer picks the final time. No user accounts.
 
 ## Features
 
