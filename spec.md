@@ -75,8 +75,23 @@ VoteChoice   vote_id, slot_id, answer (yes|no)
 ## Tech stack
 
 - **Next.js (TypeScript)**: frontend and API in one project
-- **SQLite + Prisma**: no database server to set up; can move to Postgres later
+- **Postgres + Prisma**: database and ORM (Prisma provider `postgresql`)
 - **Tailwind CSS**: styling
+
+## Hosting
+
+- **App:** Vercel, deploying automatically from the GitHub repo. Each pull request gets a preview deployment.
+- **Database:** Neon (serverless Postgres).
+- **Why not SQLite in production:** Vercel's filesystem does not persist between requests or deploys, so a SQLite file would lose data.
+- **Local development:** a local Postgres instance or a separate Neon development branch, set via `DATABASE_URL`.
+
+### Deployment steps
+
+1. Push the repo to GitHub.
+2. Create a Neon project and copy its connection string.
+3. Import the repo in Vercel and set `DATABASE_URL` in the project's environment variables.
+4. Run `prisma migrate deploy` as part of the build to apply the schema.
+5. Deploy.
 
 ## Build order
 
